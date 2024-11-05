@@ -1,0 +1,33 @@
+.container {
+    background: #f9f9f9;
+    padding-left: 17%;
+    padding-right: 2%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.large-container {
+    padding-left: 7%;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    margin: 5px 0;
+}
+
+.card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin: 6px 0;
+}
+.card p {
+    font-size: 14px;
+}
