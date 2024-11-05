@@ -1,4 +1,1 @@
-const dotenv = require('dotenv')
-dotenv.config()
-
-export const API_KEY = process.env.API_KEY;
+export const API_KEY = import.meta.env.VITE_API_KEY;
