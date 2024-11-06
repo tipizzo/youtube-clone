@@ -25,24 +25,21 @@ const Recommended = ({ categoryId }) => {
 
     useEffect(() => {
         fetchData();
-    }, [])
+    }, [categoryId])
 
   return (
     <div className='recommended'>
-        {apiData.map((item, index) => {
-            return (
+            {apiData.map((item, index) => (
                 <div key={index} className='side-video-list'>
                     <img src={thumbnail1} alt='' />
                     <div className='vid-info'>
-                        <h4>Best channel that help you to be a web developer</h4>
+                        <h4>Best channel that helps you to be a web developer</h4>
                         <p>GreatStack</p>
                         <p>199K Views</p>
                     </div>
                 </div>
-            )
-        })}
-        
-    </div>
+            ))}
+        </div>
   )
 }
 
