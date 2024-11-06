@@ -14,6 +14,7 @@ const PlayVideo = ({ videoId }) => {
 
     const [apiData, setApiData] = useState(null)
     const [channelData, setChannelData] = useState(null)
+    const [commentData, setCommentData] = useState([])
 
     const fetchVideoData = async () => {
         // Fetching videos Data
@@ -31,6 +32,13 @@ const PlayVideo = ({ videoId }) => {
         await fetch(channelDataUrl)
         .then(response => response.json())
         .then(data => setChannelData(data.items[0])) 
+
+        // Fetching comment Data
+        const commentUrl = `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&maxResults=100&videoId=${videoId}&key=${API_KEY}`;
+        await fetch(commentUrl)
+        .then(response => response.json())
+        .then(data => setCommentData(data.items))
+
     }
 
     useEffect(() => {
@@ -68,54 +76,23 @@ const PlayVideo = ({ videoId }) => {
         <p>{apiData?apiData.snippet.description.slice(0, 250): "No description available"}</p>
         <hr />
         <h4>{apiData?value_converter(apiData.statistics.commentCount): 120} Comments</h4>
-        <div className='comment'>
-            <img src={user_profile} alt='' />
-            <div>
-                <h3>Jack Nicolson <span>1 day ago</span></h3>
-                <p>A global computer network providing a variety of information and communication of interconnected networks using standardized communication protocols.</p>
-                <div className='comment-action'>
+        {commentData.map((item, index) => {
+            return (
+                <div key={index} className='comment'>
+                   <img src={item.snippet.topLevelComment.snippet.authorProfileImageUrl} alt='' />
+                   <div>
+                       <h3>{item.snippet.topLevelComment.snippet.authorDisplayName} <span>1 day ago</span></h3>
+                       <p>{item.snippet.topLevelComment.snippet.textDisplay}</p>
+                    <div className='comment-action'>
                     <img src={like} alt='' />
-                    <span>244</span>
+                    <span>{value_converter(item.snippet.topLevelComment.snippet.likeCount)}</span>
                     <img src={dislike} alt='' />
                 </div>
             </div>
         </div>
-        <div className='comment'>
-            <img src={user_profile} alt='' />
-            <div>
-                <h3>Jack Nicolson <span>1 day ago</span></h3>
-                <p>A global computer network providing a variety of information and communication of interconnected networks using standardized communication protocols.</p>
-                <div className='comment-action'>
-                    <img src={like} alt='' />
-                    <span>244</span>
-                    <img src={dislike} alt='' />
-                </div>
-            </div>
-        </div>
-        <div className='comment'>
-            <img src={user_profile} alt='' />
-            <div>
-                <h3>Jack Nicolson <span>1 day ago</span></h3>
-                <p>A global computer network providing a variety of information and communication of interconnected networks using standardized communication protocols.</p>
-                <div className='comment-action'>
-                    <img src={like} alt='' />
-                    <span>244</span>
-                    <img src={dislike} alt='' />
-                </div>
-            </div>
-        </div>
-        <div className='comment'>
-            <img src={user_profile} alt='' />
-            <div>
-                <h3>Jack Nicolson <span>1 day ago</span></h3>
-                <p>A global computer network providing a variety of information and communication of interconnected networks using standardized communication protocols.</p>
-                <div className='comment-action'>
-                    <img src={like} alt='' />
-                    <span>244</span>
-                    <img src={dislike} alt='' />
-                </div>
-            </div>
-        </div>
+            )
+        })}
+        
       </div>
     </div>
   )
