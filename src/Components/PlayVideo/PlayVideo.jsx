@@ -27,15 +27,19 @@ const PlayVideo = ({ videoId }) => {
     const fetchOtherData = async () => {
         // Fetching channels data
 
-        const channelDataUrl = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}=${API_KEY}`;
+        const channelDataUrl = `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${apiData.snippet.channelId}&key=${API_KEY}`;
         await fetch(channelDataUrl)
-        .then(res => res.json())
-        .then(data => setChannelData(data.it)) 
+        .then(response => response.json())
+        .then(data => setChannelData(data.items[0])) 
     }
 
     useEffect(() => {
         fetchVideoData();
     }, [])
+
+    useEffect(() => {
+        fetchOtherData();
+    }, [apiData])
 
   return (
     <div className='play-video'>
@@ -53,10 +57,10 @@ const PlayVideo = ({ videoId }) => {
       </div>
       <hr />
       <div className='publisher'>
-        <img src={jack} alt='' />
+        <img src={channelData?channelData.snippet.thumbnails.default.url: ""} alt='' />
         <div>
             <p>{apiData?apiData.snippet.channelTitle: ""}</p>
-            <span>1M Subscribers</span>
+            <span>{channelData?value_converter(channelData.statistics.subscriberCount):"1M"} Subscribers</span>
         </div>
         <button>Subscribe</button>
       </div>
